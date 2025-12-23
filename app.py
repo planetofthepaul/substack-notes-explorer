@@ -78,6 +78,7 @@ HTML = '''
 <body>
     <h1>Substack Notes Exporter</h1>
     <p>Export all your Substack Notes to a text file.</p>
+    <p class="small">Created by <a href="https://paulstaples.substack.com" target="_blank" style="color: #ff6719;">Paul Staples</a></p>
     <p class="small">First load may take 30 seconds if the server is waking up. Large accounts may take a minute or two.</p>
     
     <input type="text" id="subdomain" placeholder="Your subdomain (e.g. paulstaples)">
