@@ -56,6 +56,7 @@ HTML = '''
 <body>
     <h1>Substack Notes Exporter</h1>
     <p>Export all your Substack Notes to a text file.</p>
+    <p style="font-size: 14px; color: #888;">First load may take 30 seconds if the server is waking up. Large accounts may take a minute or two. Refresh the page to export again.</p>
     
     <form action="/export" method="post" id="form">
         <input type="text" name="subdomain" id="subdomain" 
@@ -100,7 +101,15 @@ def export():
                 url += f"?cursor={cursor}"
             
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-            response = urllib.request.urlopen(req, timeout=30)
+            
+            try:
+                response = urllib.request.urlopen(req, timeout=30)
+            except urllib.error.HTTPError as e:
+                if e.code == 429:  # Rate limited - wait and retry
+                    time.sleep(5)
+                    continue
+                raise
+            
             data = json.loads(response.read())
             
             items = data.get("items", [])
