@@ -14,83 +14,316 @@ HTML = '''
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Substack Notes Exporter</title>
+    <title>Substack Notes Exporter ✿</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Privacy-friendly analytics by Plausible -->
     <script async src="https://plausible.io/js/pa-jluo04lsBer5Kjum87QyY.js"></script>
     <script>
       window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
       plausible.init()
     </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
+        
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            max-width: 500px; 
-            margin: 60px auto; 
+            font-family: 'Quicksand', 'Georgia', serif;
+            min-height: 100vh;
+            margin: 0;
             padding: 20px;
-            background: #fafafa;
+            background: linear-gradient(145deg, #fef9f3 0%, #fdf2e9 30%, #fce8e4 60%, #f9e4e8 100%);
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        h1 { 
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        p { 
-            color: #666; 
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-        .small {
+        
+        /* Floating flowers background */
+        body::before {
+            content: "✿ ❀ ✿ ❀ ✿ ❀ ✿ ❀ ✿ ❀ ✿ ❀";
+            position: fixed;
+            top: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
             font-size: 14px;
-            color: #888;
+            color: #e8b4bc;
+            opacity: 0.5;
+            letter-spacing: 20px;
+            pointer-events: none;
+            z-index: 0;
         }
+        
+        body::after {
+            content: "❁ ✾ ❁ ✾ ❁ ✾ ❁ ✾ ❁ ✾ ❁ ✾";
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 14px;
+            color: #d4a5a5;
+            opacity: 0.4;
+            letter-spacing: 20px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 460px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px 35px;
+            box-shadow: 
+                0 4px 30px rgba(199, 144, 144, 0.15),
+                0 1px 3px rgba(199, 144, 144, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(232, 180, 188, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .flower-divider {
+            text-align: center;
+            color: #d4a5a5;
+            font-size: 12px;
+            letter-spacing: 8px;
+            margin: 5px 0 25px 0;
+            opacity: 0.7;
+        }
+        
+        h1 { 
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 28px;
+            font-weight: 500;
+            color: #8b6b6b;
+            margin: 0 0 5px 0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-style: italic;
+            color: #b8928f;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+        
+        p { 
+            color: #9a8080; 
+            margin-bottom: 18px;
+            line-height: 1.7;
+            text-align: center;
+            font-size: 15px;
+        }
+        
+        .small {
+            font-size: 13px;
+            color: #b8a0a0;
+        }
+        
+        .small a {
+            color: #c9928e;
+            text-decoration: none;
+            border-bottom: 1px dotted #c9928e;
+            transition: all 0.3s ease;
+        }
+        
+        .small a:hover {
+            color: #a87070;
+            border-bottom-color: #a87070;
+        }
+        
         input[type="text"] {
             width: 100%;
-            padding: 12px;
+            padding: 14px 18px;
             font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-bottom: 15px;
+            font-family: 'Quicksand', sans-serif;
+            border: 2px solid #edd9d9;
+            border-radius: 50px;
+            margin-bottom: 18px;
+            background: rgba(255, 255, 255, 0.7);
+            color: #7a6060;
+            transition: all 0.3s ease;
+            text-align: center;
         }
+        
+        input[type="text"]::placeholder {
+            color: #c4aaaa;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #d4a5a5;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 20px rgba(212, 165, 165, 0.2);
+        }
+        
         button {
             width: 100%;
-            padding: 12px;
+            padding: 14px 20px;
             font-size: 16px;
-            background: #ff6719;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 500;
+            background: linear-gradient(135deg, #e8b4b8 0%, #d4a5a5 100%);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 50px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 165, 165, 0.3);
+            letter-spacing: 0.5px;
         }
-        button:hover { background: #e55a14; }
-        button:disabled { background: #ccc; cursor: not-allowed; }
-        .error { color: #c00; margin-top: 15px; }
-        #progress { 
-            color: #666;
+        
+        button:hover { 
+            background: linear-gradient(135deg, #d4a5a5 0%, #c99595 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 165, 165, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled { 
+            background: linear-gradient(135deg, #ddd 0%, #ccc 100%);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .error { 
+            color: #c48080; 
+            background: rgba(196, 128, 128, 0.1);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(196, 128, 128, 0.2);
             margin-top: 15px;
+            text-align: center;
         }
+        
+        #progress { 
+            color: #9a8080;
+            margin-top: 18px;
+            text-align: center;
+            font-style: italic;
+        }
+        
         #download {
             display: none;
             margin-top: 20px;
-            padding: 12px;
-            background: #22c55e;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #a8c5a0 0%, #8fb88a 100%);
             color: white;
             text-decoration: none;
-            border-radius: 6px;
+            border-radius: 50px;
             text-align: center;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(143, 184, 138, 0.3);
         }
-        #download:hover { background: #16a34a; }
+        
+        #download:hover { 
+            background: linear-gradient(135deg, #8fb88a 0%, #7aa876 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(143, 184, 138, 0.4);
+        }
+        
+        .leaf {
+            display: inline-block;
+            margin: 0 5px;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 520px) {
+            body {
+                padding: 15px;
+                align-items: flex-start;
+                padding-top: 40px;
+            }
+            
+            .container {
+                padding: 30px 25px;
+                border-radius: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 15px;
+            }
+            
+            p {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            
+            input[type="text"] {
+                padding: 12px 16px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            button, #download {
+                padding: 12px 18px;
+                font-size: 15px;
+            }
+            
+            body::before, body::after {
+                font-size: 10px;
+                letter-spacing: 12px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .flower-divider {
+                letter-spacing: 5px;
+            }
+        }
+        
+        /* Cute loading animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
     </style>
 </head>
 <body>
-    <h1>Substack Notes Exporter</h1>
-    <p>Export all your Substack Notes to a text file.</p>
-    <p class="small">Created by <a href="https://paulstaples.substack.com" target="_blank" style="color: #ff6719;">Paul Staples</a></p>
-    <p class="small">First load may take 30 seconds if the server is waking up. Large accounts may take a minute or two.</p>
-    
-    <input type="text" id="subdomain" placeholder="Your subdomain (e.g. paulstaples)">
-    <button id="btn" onclick="startExport()">Export Notes</button>
-    <div id="progress"></div>
-    <a id="download" href="#">Download Notes</a>
+    <div class="container">
+        <h1>Notes Exporter</h1>
+        <p class="subtitle">for your Substack musings ✿</p>
+        <div class="flower-divider">❀ ✿ ❀ ✿ ❀</div>
+        
+        <p>Gently gather all your notes into a lovely text file, ready to cherish forever.</p>
+        
+        <p class="small">crafted with care by <a href="https://paulstaples.substack.com" target="_blank">Paul Staples</a></p>
+        <p class="small">The first bloom may take a moment if the garden is waking. Larger collections need a little more time to gather. ✿</p>
+        
+        <input type="text" id="subdomain" placeholder="your subdomain (e.g. paulstaples)">
+        <button id="btn" onclick="startExport()"><span class="leaf">🌿</span> Gather My Notes <span class="leaf">🌿</span></button>
+        <div id="progress"></div>
+        <a id="download" href="#"><span class="leaf">🍃</span> Download Your Notes <span class="leaf">🍃</span></a>
+    </div>
 
     <script>
         let jobId = null;
@@ -98,17 +331,18 @@ HTML = '''
         async function startExport() {
             const subdomain = document.getElementById('subdomain').value.trim();
             if (!subdomain) {
-                alert('Please enter a subdomain');
+                alert('Please enter a subdomain, dear 🌸');
                 return;
             }
             
             document.getElementById('btn').disabled = true;
-            document.getElementById('btn').textContent = 'Starting...';
+            document.getElementById('btn').innerHTML = '✿ Preparing... ✿';
+            document.getElementById('btn').classList.add('loading');
             document.getElementById('progress').textContent = '';
             document.getElementById('download').style.display = 'none';
             
             // Start the job
-            const response = await fetch('/start', {
+            const response = await fetch('/notes/start', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({subdomain: subdomain})
@@ -116,37 +350,40 @@ HTML = '''
             const data = await response.json();
             
             if (data.error) {
-                document.getElementById('progress').innerHTML = '<span class="error">' + data.error + '</span>';
+                document.getElementById('progress').innerHTML = '<span class="error">Oh dear... ' + data.error + '</span>';
                 document.getElementById('btn').disabled = false;
-                document.getElementById('btn').textContent = 'Export Notes';
+                document.getElementById('btn').innerHTML = '<span class="leaf">🌿</span> Gather My Notes <span class="leaf">🌿</span>';
+                document.getElementById('btn').classList.remove('loading');
                 return;
             }
             
             jobId = data.job_id;
-            document.getElementById('btn').textContent = 'Fetching...';
+            document.getElementById('btn').innerHTML = '❀ Gathering... ❀';
             checkProgress();
         }
         
         async function checkProgress() {
-            const response = await fetch('/progress/' + jobId);
+            const response = await fetch('/notes/progress/' + jobId);
             const data = await response.json();
             
             if (data.error) {
-                document.getElementById('progress').innerHTML = '<span class="error">' + data.error + '</span>';
+                document.getElementById('progress').innerHTML = '<span class="error">Oh dear... ' + data.error + '</span>';
                 document.getElementById('btn').disabled = false;
-                document.getElementById('btn').textContent = 'Export Notes';
+                document.getElementById('btn').innerHTML = '<span class="leaf">🌿</span> Gather My Notes <span class="leaf">🌿</span>';
+                document.getElementById('btn').classList.remove('loading');
                 return;
             }
             
-            document.getElementById('progress').textContent = 'Fetched ' + data.count + ' notes...';
+            document.getElementById('progress').textContent = '✿ Gathered ' + data.count + ' notes so far... ✿';
             
             if (data.done) {
-                document.getElementById('progress').textContent = 'Done! Found ' + data.count + ' notes.';
-                document.getElementById('download').href = '/download/' + jobId;
+                document.getElementById('progress').textContent = '🌸 Wonderful! Found ' + data.count + ' lovely notes. 🌸';
+                document.getElementById('download').href = '/notes/download/' + jobId;
                 document.getElementById('download').style.display = 'block';
-                document.getElementById('download').textContent = 'Download ' + data.count + ' Notes';
+                document.getElementById('download').innerHTML = '<span class="leaf">🍃</span> Download ' + data.count + ' Notes <span class="leaf">🍃</span>';
                 document.getElementById('btn').disabled = false;
-                document.getElementById('btn').textContent = 'Export Notes';
+                document.getElementById('btn').innerHTML = '<span class="leaf">🌿</span> Gather My Notes <span class="leaf">🌿</span>';
+                document.getElementById('btn').classList.remove('loading');
             } else {
                 setTimeout(checkProgress, 1000);
             }
@@ -258,12 +495,12 @@ def download(job_id):
     notes = job['notes']
     
     # Build the text file
-    output = f"Substack Notes Export for @{subdomain}\n"
+    output = f"✿ Substack Notes Export for @{subdomain} ✿\n"
     output += f"Total notes: {len(notes)}\n"
-    output += "=" * 50 + "\n\n"
+    output += "─" * 40 + "\n\n"
     
     for i, note in enumerate(notes, 1):
-        output += f"--- Note {i} ---\n"
+        output += f"── Note {i} ──\n"
         if note["date"]:
             output += f"Date: {note['date']}\n"
         output += f"{note['body']}\n\n"
