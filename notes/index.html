@@ -68,6 +68,15 @@
             box-shadow: 0 4px 30px rgba(199,144,144,0.15);
         }
 
+        .flower-divider {
+            text-align: center;
+            color: #d4a5a5;
+            font-size: 12px;
+            letter-spacing: 8px;
+            margin: 8px 0 20px 0;
+            opacity: 0.7;
+        }
+
         h1 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 28px;
@@ -82,7 +91,7 @@
             font-style: italic;
             text-align: center;
             color: #b8928f;
-            margin-bottom: 16px;
+            margin-bottom: 6px;
         }
 
         p {
@@ -90,6 +99,24 @@
             color: #9a8080;
             font-size: 15px;
             line-height: 1.6;
+            margin: 0 0 14px 0;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #b8a0a0;
+            margin: 0 0 12px 0;
+        }
+
+        .small a {
+            color: #c9928e;
+            text-decoration: none;
+            border-bottom: 1px dotted #c9928e;
+        }
+
+        .small a:hover {
+            color: #a87070;
+            border-bottom-color: #a87070;
         }
 
         input {
@@ -97,9 +124,22 @@
             padding: 14px 18px;
             border-radius: 50px;
             border: 2px solid #edd9d9;
-            margin-top: 18px;
+            margin-top: 14px;
             text-align: center;
             font-size: 16px;
+            background: rgba(255,255,255,0.7);
+            color: #7a6060;
+        }
+
+        input::placeholder {
+            color: #c4aaaa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #d4a5a5;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 0 20px rgba(212,165,165,0.2);
         }
 
         button {
@@ -112,12 +152,11 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
+            transition: transform 0.15s ease, opacity 0.15s ease;
         }
 
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
+        button:hover { transform: translateY(-1px); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
         #progress {
             margin-top: 16px;
@@ -136,9 +175,19 @@
             text-decoration: none;
         }
 
+        #download:hover { transform: translateY(-1px); }
+
         .error {
             margin-top: 14px;
             color: #c48080;
+        }
+
+        @media (max-width: 520px) {
+            body { padding: 15px; align-items: flex-start; padding-top: 40px; }
+            .container { padding: 30px 25px; border-radius: 20px; }
+            h1 { font-size: 24px; }
+            .subtitle { font-size: 15px; }
+            body::before, body::after { font-size: 10px; letter-spacing: 12px; }
         }
     </style>
 </head>
@@ -147,8 +196,21 @@
 <div class="container">
     <h1>Notes Exporter</h1>
     <div class="subtitle">for your Substack musings ✿</div>
+    <div class="flower-divider">❀ ✿ ❀ ✿ ❀</div>
 
-    <p>Gently gather all your notes into a simple text file.</p>
+    <p>
+        Gently gather all your notes into a simple text file — something you can keep,
+        search, reread, or tuck away.
+    </p>
+
+    <p class="small">
+        The first bloom may take a moment if your garden is just waking.
+        Larger collections need a little more time to gather.
+    </p>
+
+    <p class="small">
+        Crafted with care by <a href="https://paulstaples.substack.com" target="_blank" rel="noopener">Paul Staples</a>.
+    </p>
 
     <input id="subdomain" placeholder="your subdomain (e.g. paulstaples)">
     <button id="btn" onclick="startExport()">Gather My Notes</button>
@@ -166,7 +228,7 @@
         if (!subdomain) return;
 
         document.getElementById('btn').disabled = true;
-        document.getElementById('progress').textContent = 'Starting…';
+        document.getElementById('progress').textContent = '✿ Preparing… ✿';
         document.getElementById('download').style.display = 'none';
 
         try {
@@ -194,16 +256,19 @@
             if (data.error) throw data.error;
 
             document.getElementById('progress').textContent =
-                `Gathered ${data.count} notes…`;
+                `✿ Gathered ${data.count} notes so far… ✿`;
 
             if (data.done) {
                 document.getElementById('progress').textContent =
-                    `Done. ${data.count} notes found.`;
+                    `🌸 Wonderful — ${data.count} notes found. 🌸`;
+
                 const dl = document.getElementById('download');
                 dl.href = API_BASE + '/notes/download/' + jobId;
-                dl.textContent = 'Download Notes';
+                dl.textContent = `Download ${data.count} Notes`;
                 dl.style.display = 'block';
+
                 document.getElementById('btn').disabled = false;
+                document.getElementById('btn').textContent = 'Gather My Notes';
             } else {
                 setTimeout(poll, 1000);
             }
@@ -214,8 +279,9 @@
 
     function showError(msg) {
         document.getElementById('progress').innerHTML =
-            `<div class="error">${msg}</div>`;
+            `<div class="error">Oh dear… ${String(msg)}</div>`;
         document.getElementById('btn').disabled = false;
+        document.getElementById('btn').textContent = 'Gather My Notes';
     }
 </script>
 </body>
