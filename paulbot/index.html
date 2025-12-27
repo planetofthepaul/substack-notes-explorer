@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>PAULBOT</title>
 
-  <!-- Plausible analytics -->
   <script async src="https://plausible.io/js/pa-jluo04lsBer5Kjum87QyY.js"></script>
   <script>
     window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)}
@@ -98,7 +97,6 @@
   </div>
 
 <script>
-  // CHANGE THIS ONE LINE ONLY:
   const LAMBDA_URL = "https://6jy6r7vlsmrbxzysop3do6w7ha0tsoje.lambda-url.us-east-2.on.aws/";
 
   const chatEl = document.getElementById("chat");
@@ -132,7 +130,9 @@
     try {
       const res = await fetch(LAMBDA_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({ message: text })
       });
 
@@ -141,7 +141,7 @@
 
       addMsg("Paulbot", data.reply || "");
     } catch (err) {
-      addMsg("Paulbot", err.message);
+      addMsg("Paulbot", err?.message || String(err));
     } finally {
       send.disabled = false;
       input.focus();
