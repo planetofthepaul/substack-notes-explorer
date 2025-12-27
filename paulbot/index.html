@@ -98,8 +98,8 @@
   </div>
 
 <script>
-  // ✅ Public, non-secret URL. Safe to be in the browser.
-  const FUNCTION_URL = "https://6jy6r7vlsmrbxzysop3do6w7ha0tsoje.lambda-url.us-east-2.on.aws/";
+  // CHANGE THIS ONE LINE ONLY:
+  const LAMBDA_URL = "https://6jy6r7vlsmrbxzysop3do6w7ha0tsoje.lambda-url.us-east-2.on.aws/";
 
   const chatEl = document.getElementById("chat");
   const form = document.getElementById("form");
@@ -130,7 +130,7 @@
     send.disabled = true;
 
     try {
-      const res = await fetch(FUNCTION_URL, {
+      const res = await fetch(LAMBDA_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text })
